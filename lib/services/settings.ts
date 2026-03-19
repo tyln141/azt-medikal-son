@@ -1,6 +1,7 @@
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../firebase/config";
 import { Settings } from "@/types";
+import { getBaseUrl } from "../utils";
 
 const SETTINGS_DOC_ID = "main";
 
@@ -15,7 +16,7 @@ export const settingsService = {
   },
 
   async update(data: Partial<Settings>): Promise<void> {
-    const response = await fetch("/api/settings", {
+    const response = await fetch(`${getBaseUrl()}/api/settings`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),

@@ -8,6 +8,7 @@ import {
   orderBy 
 } from "firebase/firestore";
 import { Message } from "@/types";
+import { getBaseUrl } from "../utils";
 
 const COLLECTION_NAME = "messages";
 
@@ -22,7 +23,7 @@ export const messagesService = {
   },
 
   async create(data: Omit<Message, "id" | "createdAt" | "isRead">): Promise<void> {
-    const response = await fetch("/api/messages", {
+    const response = await fetch(`${getBaseUrl()}/api/messages`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
@@ -31,7 +32,7 @@ export const messagesService = {
   },
 
   async markAsRead(id: string): Promise<void> {
-    const response = await fetch("/api/messages", {
+    const response = await fetch(`${getBaseUrl()}/api/messages`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id, isRead: true }),
@@ -40,7 +41,7 @@ export const messagesService = {
   },
 
   async delete(id: string): Promise<void> {
-    const response = await fetch(`/api/messages?id=${id}`, {
+    const response = await fetch(`${getBaseUrl()}/api/messages?id=${id}`, {
       method: "DELETE",
     });
     if (!response.ok) throw new Error("Failed to delete message");

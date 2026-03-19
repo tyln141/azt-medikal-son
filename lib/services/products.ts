@@ -9,6 +9,7 @@ import {
   orderBy 
 } from "firebase/firestore";
 import { Product } from "@/types";
+import { getBaseUrl } from "../utils";
 
 const COLLECTION_NAME = "products";
 
@@ -55,7 +56,7 @@ export const productsService = {
   },
 
   async create(data: Omit<Product, "id" | "createdAt">): Promise<Product> {
-    const response = await fetch("/api/products", {
+    const response = await fetch(`${getBaseUrl()}/api/products`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
@@ -65,7 +66,7 @@ export const productsService = {
   },
 
   async update(id: string, data: Partial<Product>): Promise<void> {
-    const response = await fetch("/api/products", {
+    const response = await fetch(`${getBaseUrl()}/api/products`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id, ...data }),
@@ -74,7 +75,7 @@ export const productsService = {
   },
 
   async delete(id: string): Promise<void> {
-    const response = await fetch(`/api/products?id=${id}`, {
+    const response = await fetch(`${getBaseUrl()}/api/products?id=${id}`, {
       method: "DELETE",
     });
     if (!response.ok) throw new Error("Failed to delete product");

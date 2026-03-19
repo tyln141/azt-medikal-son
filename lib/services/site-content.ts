@@ -1,13 +1,14 @@
 import { db } from "../firebase/config";
 import { doc, getDoc } from "firebase/firestore";
 import { SiteContent } from "@/types";
+import { getBaseUrl } from "../utils";
 
 const COLLECTION_NAME = "site-content";
 const DOCUMENT_ID = "main";
 
 export const siteContentService = {
   async getContent(): Promise<SiteContent | null> {
-    const response = await fetch("/api/site-content", {
+    const response = await fetch(`${getBaseUrl()}/api/site-content`, {
       cache: "no-store"
     });
     if (!response.ok) return null;
@@ -15,7 +16,7 @@ export const siteContentService = {
   },
 
   async update(data: any): Promise<void> {
-    const response = await fetch("/api/site-content", {
+    const response = await fetch(`${getBaseUrl()}/api/site-content`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
