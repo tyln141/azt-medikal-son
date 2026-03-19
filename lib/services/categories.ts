@@ -25,49 +25,29 @@ const normalizeCategory = (data: any): Category => {
 };
 
 const seedCategories: Category[] = [
-  { 
-    id: "hemodiyaliz-kateterleri", 
-    name: { tr: "Hemodiyaliz Kateterleri", en: "Hemodialysis Catheters", de: "Hämodialysekatheter", fr: "Cathéters d'hémodialyse" }, 
-    description: { 
-      tr: "Yüksek kaliteli ve güvenilir hemodiyaliz çözümleri", 
-      en: "High-quality and reliable hemodialysis solutions", 
-      de: "Hochwertige und zuverlässige Hämodialyselösungen", 
-      fr: "Solutions d'hémodialyse fiables et de haute qualité" 
-    }, 
-    createdAt: Date.now() 
+  {
+    id: "life-support",
+    name: { "tr": "Yaşam Destek Üniteleri", "en": "Life Support Units", "de": "Lebenserhaltungssysteme", "fr": "Unités de Réanimation" },
+    description: { "tr": "Yüksek hassasiyetli ventilatörler, anestezi cihazları ve yaşamsal fonksiyon monitörizasyon sistemleri.", "en": "High-precision ventilators, anesthesia machines, and vital function monitoring systems.", "de": "Hochpräzise Beatmungsgeräte, Anästhesiegeräte und Überwachungssysteme für Vitalfunktionen.", "fr": "Ventilateurs de haute précision, appareils d'anesthésie et systèmes de surveillance des fonctions vitales." },
+    createdAt: Date.now()
   },
-  { 
-    id: "infuzyon-pompaları", 
-    name: { tr: "İnfüzyon Pompaları", en: "Infusion Pumps", de: "Infusionspumpen", fr: "Pompes à perfusion" }, 
-    description: { 
-      tr: "Modern ve hassas infüzyon teknolojileri", 
-      en: "Modern and precise infusion technologies", 
-      de: "Moderne und präzise Infusionstechnologien", 
-      fr: "Technologies d'infusion modernes et précises" 
-    }, 
-    createdAt: Date.now() - 1000 
+  {
+    id: "surgical-systems",
+    name: { "tr": "Cerrahi ve Ameliyathane Sistemleri", "en": "Surgical and OR Systems", "de": "Chirurgie- und OP-Systeme", "fr": "Systèmes Chirurgicaux et Bloc Opératoire" },
+    description: { "tr": "Modern ameliyathaneler için cerrahi masalar, yüksek performanslı ameliyat lambaları ve cerrahi aspiratörler.", "en": "Surgical tables, high-performance surgical lights, and surgical aspirators for modern operating rooms.", "de": "OP-Tische, Hochleistungs-OP-Leuchten und chirurgische Asperatoren für moderne Operationssäle.", "fr": "Tables d'opération, éclairages chirurgicaux haute performance et aspirateurs chirurgicaux pour blocs opératoires modernes." },
+    createdAt: Date.now() - 1000
   },
-  { 
-    id: "diyaliz-sarf-malzemeleri", 
-    name: { tr: "Diyaliz Sarf Malzemeleri", en: "Dialysis Consumables", de: "Dialyse-Verbrauchsmaterialien", fr: "Consommables de dialyse" }, 
-    description: { 
-      tr: "Diyaliz süreçleri için tüm sarf malzemeleri", 
-      en: "All consumables for dialysis processes", 
-      de: "Alle Verbrauchsmaterialien für Dialyseprozesse", 
-      fr: "Tous les consommables pour la dialyse" 
-    }, 
-    createdAt: Date.now() - 2000 
+  {
+    id: "diagnostic-lab",
+    name: { "tr": "Tanı ve Laboratuvar Ekipmanları", "en": "Diagnostic and Lab Equipment", "de": "Diagnostik- und Laborausrüstung", "fr": "Équipement de Diagnostic et de Laboratoire" },
+    description: { "tr": "Hızlı ve doğru tanı için biyokimya analizörleri, mikroskoplar ve ileri düzey laboratuvar test sistemleri.", "en": "Biochemistry analyzers, microscopes, and advanced laboratory testing systems for fast and accurate diagnosis.", "de": "Biochemie-Analysatoren, Mikroskope und fortschrittliche Labortestsysteme für eine schnelle und genaue Diagnose.", "fr": "Analyseurs de biochimie, microscopes et systèmes de test de laboratoire avancés pour un diagnostic rapide et précis." },
+    createdAt: Date.now() - 2000
   },
-  { 
-    id: "port-igneleri", 
-    name: { tr: "Port İğneleri", en: "Port Needles", de: "Portnadeln", fr: "Aiguilles à port" }, 
-    description: { 
-      tr: "Güvenli ve konforlu port iğne çözümleri", 
-      en: "Safe and comfortable port needle solutions", 
-      de: "Sichere und komfortable Portnadeln", 
-      fr: "Solutions d'aiguilles de port sûres and confortables" 
-    }, 
-    createdAt: Date.now() - 3000 
+  {
+    id: "sterilization",
+    name: { "tr": "Sterilizasyon ve Hijyen Çözümleri", "en": "Sterilization and Hygiene Solutions", "de": "Sterilisations- und Hygienelösungen", "fr": "Solutions de Stérilisation et d'Hygiène" },
+    description: { "tr": "Maksimum hastane hijyeni için tam otomatik otoklavlar, yıkama-dezenfeksiyon cihazları ve sterilizasyon takip sistemleri.", "en": "Fully automatic autoclaves, washer-disinfectors, and sterilization tracking systems for maximum hospital hygiene.", "de": "Vollautomatische Autoklaven, Reinigungs- und Desinfektionsgeräte sowie Sterilisations-Tracking-Systeme für maximale Hygiene im Krankenhaus.", "fr": "Autoclaves entièrement automatiques, laveurs-désinfecteurs et systèmes de suivi de stérilisation pour une hygiène hospitalière maximale." },
+    createdAt: Date.now() - 3000
   }
 ];
 
@@ -99,37 +79,13 @@ export const categoriesService = {
       if (docSnap.exists()) {
         return normalizeCategory({ id: docSnap.id, ...docSnap.data() });
       }
-      // Fallback to seed
-      return seedCategories.find(c => c.id === id) || null;
+      
+      // Fallback to seed data if not found in Firestore
+      const seeded = seedCategories.find(c => c.id === id);
+      return seeded || null;
     } catch (error) {
-      return seedCategories.find(c => c.id === id) || null;
+       console.error(error);
+       return seedCategories.find(c => c.id === id) || null;
     }
-  },
-
-  // Write operations (Must go through API)
-  async create(data: Omit<Category, "id" | "createdAt">): Promise<Category> {
-    const response = await fetch(`${getBaseUrl()}/api/categories`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
-    if (!response.ok) throw new Error("Failed to create category");
-    return response.json();
-  },
-
-  async update(id: string, data: Partial<Category>): Promise<void> {
-    const response = await fetch(`${getBaseUrl()}/api/categories`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id, ...data }),
-    });
-    if (!response.ok) throw new Error("Failed to update category");
-  },
-
-  async delete(id: string): Promise<void> {
-    const response = await fetch(`${getBaseUrl()}/api/categories?id=${id}`, {
-      method: "DELETE",
-    });
-    if (!response.ok) throw new Error("Failed to delete category");
   }
 };

@@ -11,33 +11,56 @@ export async function GET() {
 
     const defaultContent = {
       hero: { 
-        title: { tr: "A'dan Z'ye Medikal Çözümler", en: "Medical Solutions from A to Z", de: "Medizinische Lösungen von A bis Z", fr: "Solutions médicales de A à Z" }, 
-        subtitle: { tr: "Sağlık sektöründe güvenilir çözüm ortağınız", en: "Your trusted partner in healthcare", de: "Ihr zuverlässiger Partner im Gesundheitswesen", fr: "Votre partenaire de confiance dans le secteur de la santé" }, 
-        buttonText: { tr: "Ürünlerimizi İnceleyin", en: "Explore Our Products", de: "Unsere Produkte entdecken", fr: "Découvrez nos produits" } 
+        title: {
+          tr: "İleri Teknoloji Medikal Çözümlerle Sağlıkta Güvenin Adresi",
+          en: "The Address of Trust in Healthcare with Advanced Medical Solutions",
+          de: "Die Adresse des Vertrauens im Gesundheitswesen mit fortschrittlichen medizinischen Lösungen",
+          fr: "L'Adresse de la Confiance dans le Secteur de la Santé avec des Solutions Médicales Avancées"
+        },
+        subtitle: {
+          tr: "Dünya standartlarında tıbbi cihaz ve ekipman tedariği ile yarının sağlığını bugünden inşa ediyoruz.",
+          en: "We build tomorrow's healthcare today with world-class medical device and equipment supply.",
+          de: "Wir bauen die Gesundheitsversorgung von morgen schon heute mit erstklassigen medizinischen Geräten und Ausrüstungen auf.",
+          fr: "Nous construisons la santé de demain dès aujourd'hui grâce à une fourniture d'appareils et d'équipements médicaux de classe mondiale."
+        },
+        buttonText: {
+          tr: "Ürünlerimizi Keşfedin",
+          en: "Explore Our Products",
+          de: "Unsere Produkte entdecken",
+          fr: "Découvrez nos produits"
+        }
       },
       about: { 
-        title: { tr: "Hakkımızda", en: "About Us", de: "Über uns", fr: "À propos" }, 
-        description: { 
-          tr: "2010 yılından bu yana sağlık sektöründe faaliyet gösteren firmamız...", 
-          en: "Since 2010, our company has been providing high-quality medical products...", 
-          de: "Seit 2010 bietet unser Unternehmen hochwertige medizinische Produkte...", 
-          fr: "Depuis 2010, notre entreprise fournit des produits médicaux de haute qualité..." 
-        } 
+        title: {
+          tr: "15 Yılı Aşkın Tecrübe ile Sağlık Sektöründe Küresel Bir Güç",
+          en: "A Global Power in the Healthcare Sector with Over 15 Years of Experience",
+          de: "Eine globale Kraft im Gesundheitssektor mit über 15 Jahren Erfahrung",
+          fr: "Une puissance mondiale dans le secteur de la santé avec plus de 15 ans d'expérience"
+        },
+        description: {
+          tr: "2010 yılında kurulan AZT Medikal, kuruluşundan bu yana tıbbi teknoloji alanında öncü roller üstlenmiş, yenilikçi ve güvenilir bir çözüm ortağıdır.",
+          en: "Founded in 2010, AZT Medical has been an innovative and reliable solution partner globally.",
+          de: "Das 2010 gegründete Unternehmen AZT Medical ist seit seiner Gründung ein innovativer Partner.",
+          fr: "Fondée en 2010, AZT Médical est un partenaire de solutions innovant."
+        }
       },
       logo: { url: "", objectFit: "contain" },
       whyUs: [
-        { title: { tr: "Teknoloji", en: "Technology" }, description: { tr: "En son teknoloji...", en: "Latest technology..." }, icon: "⚙️" },
-        { title: { tr: "Uzman Kadro", en: "Expert Team" }, description: { tr: "Alanında uzman...", en: "Expert team..." }, icon: "👥" }
+        { title: { tr: "Üstün Kalite", en: "Superior Quality" }, description: { tr: "ISO ve CE belgeli...", en: "ISO and CE certified..." }, icon: "🛡️" },
+        { title: { tr: "Güven", en: "Trust" }, description: { tr: "Dürüstlük ve tam şeffaflık...", en: "Honesty and full transparency..." }, icon: "🤝" }
       ],
       stats: [
-        { label: { tr: "Yıllık Tecrübe", en: "Experience" }, value: "15+" },
-        { label: { tr: "Mutlu Müşteri", en: "Clients" }, value: "500+" }
+        { label: { tr: "Tecrübe", en: "Experience" }, value: "15+" },
+        { label: { tr: "Mutlu Müşteri", en: "Happy Clients" }, value: "500+" }
       ],
       footer: { 
-        address: { tr: "Ankara, Türkiye", en: "Ankara, Turkey" }, 
+        address: { 
+          tr: "Kırkkonaklar Mah. 316. Cad. 335 Sok. No:13/A, Çankaya / Ankara", 
+          en: "Ankara, Turkey"
+        }, 
         phone: "+90 555 555 55 55", 
         email: "info@aztmedikal.com", 
-        workingHours: { tr: "09:00 - 18:00", en: "09:00 - 18:00" }, 
+        workingHours: { tr: "Pazartesi - Cuma: 09:00 - 17:00", en: "Mon - Fri: 09:00 - 17:00" }, 
         copyright: { tr: "© 2026 AZT Medikal.", en: "© 2026 AZT Medical." } 
       }
     };
