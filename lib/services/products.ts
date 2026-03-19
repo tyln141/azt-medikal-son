@@ -55,8 +55,7 @@ export const productsService = {
   },
 
   async create(data: Omit<Product, "id" | "createdAt">): Promise<Product> {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-    const response = await fetch(`${baseUrl}/api/products`, {
+    const response = await fetch("/api/products", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
@@ -66,8 +65,7 @@ export const productsService = {
   },
 
   async update(id: string, data: Partial<Product>): Promise<void> {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-    const response = await fetch(`${baseUrl}/api/products`, {
+    const response = await fetch("/api/products", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id, ...data }),
@@ -76,8 +74,7 @@ export const productsService = {
   },
 
   async delete(id: string): Promise<void> {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-    const response = await fetch(`${baseUrl}/api/products?id=${id}`, {
+    const response = await fetch(`/api/products?id=${id}`, {
       method: "DELETE",
     });
     if (!response.ok) throw new Error("Failed to delete product");

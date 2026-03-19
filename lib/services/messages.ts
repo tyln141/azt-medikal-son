@@ -22,8 +22,7 @@ export const messagesService = {
   },
 
   async create(data: Omit<Message, "id" | "createdAt" | "isRead">): Promise<void> {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-    const response = await fetch(`${baseUrl}/api/messages`, {
+    const response = await fetch("/api/messages", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
@@ -32,8 +31,7 @@ export const messagesService = {
   },
 
   async markAsRead(id: string): Promise<void> {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-    const response = await fetch(`${baseUrl}/api/messages`, {
+    const response = await fetch("/api/messages", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id, isRead: true }),
@@ -42,8 +40,7 @@ export const messagesService = {
   },
 
   async delete(id: string): Promise<void> {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-    const response = await fetch(`${baseUrl}/api/messages?id=${id}`, {
+    const response = await fetch(`/api/messages?id=${id}`, {
       method: "DELETE",
     });
     if (!response.ok) throw new Error("Failed to delete message");

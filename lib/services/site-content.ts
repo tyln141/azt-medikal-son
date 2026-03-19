@@ -7,8 +7,7 @@ const DOCUMENT_ID = "main";
 
 export const siteContentService = {
   async getContent(): Promise<SiteContent | null> {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-    const response = await fetch(`${baseUrl}/api/site-content`, {
+    const response = await fetch("/api/site-content", {
       cache: "no-store"
     });
     if (!response.ok) return null;
@@ -16,8 +15,7 @@ export const siteContentService = {
   },
 
   async update(data: any): Promise<void> {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-    const response = await fetch(`${baseUrl}/api/site-content`, {
+    const response = await fetch("/api/site-content", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),

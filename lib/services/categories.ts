@@ -1,11 +1,11 @@
 import { db } from "../firebase/config";
-import { 
-  collection, 
-  getDocs, 
-  doc, 
-  getDoc, 
-  query, 
-  orderBy 
+import {
+  collection,
+  getDocs,
+  doc,
+  getDoc,
+  query,
+  orderBy
 } from "firebase/firestore";
 import { Category } from "@/types";
 
@@ -38,8 +38,7 @@ export const categoriesService = {
 
   // Write operations (Must go through API)
   async create(data: Omit<Category, "id" | "createdAt">): Promise<Category> {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-    const response = await fetch(`${baseUrl}/api/categories`, {
+    const response = await fetch("/api/categories", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
@@ -49,8 +48,7 @@ export const categoriesService = {
   },
 
   async update(id: string, data: Partial<Category>): Promise<void> {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-    const response = await fetch(`${baseUrl}/api/categories`, {
+    const response = await fetch("/api/categories", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id, ...data }),
@@ -59,8 +57,7 @@ export const categoriesService = {
   },
 
   async delete(id: string): Promise<void> {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-    const response = await fetch(`${baseUrl}/api/categories?id=${id}`, {
+    const response = await fetch(`/api/categories?id=${id}`, {
       method: "DELETE",
     });
     if (!response.ok) throw new Error("Failed to delete category");
