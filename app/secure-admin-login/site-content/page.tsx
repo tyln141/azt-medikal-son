@@ -46,7 +46,8 @@ export default function SiteContentPage() {
           title: formData.hero?.title || { tr: "", en: "", de: "", fr: "" },
           subtitle: formData.hero?.subtitle || { tr: "", en: "", de: "", fr: "" },
           buttonText: formData.hero?.buttonText || { tr: "", en: "", de: "", fr: "" },
-          image: (formData.hero?.image as any)?.url ? formData.hero?.image : null
+          image: (formData.hero?.image as any)?.url ? formData.hero?.image : null,
+          position: formData.hero?.position || "left"
         },
         about: {
           title: formData.about?.title || { tr: "", en: "", de: "", fr: "" },
@@ -241,6 +242,20 @@ export default function SiteContentPage() {
 
             {activeSection === "hero" && (
               <div className="space-y-8">
+                <div>
+                  <label className={labelClass}>Metin Konumu</label>
+                  <select className={inputClass} value={formData.hero?.position || "left"} onChange={(e) => {
+                    const val = e.target.value as any;
+                    setFormData(prev => ({
+                      ...prev,
+                      hero: { ...(prev.hero as any), position: val }
+                    }));
+                  }}>
+                    <option value="left">Sola Dayalı</option>
+                    <option value="center">Ortala</option>
+                    <option value="right">Sağa Dayalı</option>
+                  </select>
+                </div>
                 <div>
                   <label className={labelClass}>Giriş Başlığı ({activeLang})</label>
                   <input type="text" className={inputClass} value={formData.hero?.title?.[activeLang] || ""} onChange={(e) => {

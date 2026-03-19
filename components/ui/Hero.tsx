@@ -14,6 +14,7 @@ export default function Hero({ lang, content }: HeroProps) {
   const subtitle = content?.subtitle?.[lang] || "";
   const buttonText = content?.buttonText?.[lang] || "";
   const image = content?.image as any;
+  const position = content?.position || "left";
 
   return (
     <section className="relative w-full overflow-hidden min-h-[600px] flex items-center py-24 bg-zinc-900 border-none">
@@ -35,12 +36,24 @@ export default function Hero({ lang, content }: HeroProps) {
         <div className="absolute inset-0 z-0 bg-gradient-to-r from-sky-600 to-blue-800 opacity-90" />
       )}
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 w-full text-left">
-        <div className="max-w-3xl">
+      <div className={`relative z-10 max-w-7xl mx-auto px-6 w-full flex ${
+        position === 'center' ? 'justify-center text-center' :
+        position === 'right' ? 'justify-end text-right' :
+        'justify-start text-left'
+      }`}>
+        <div className={`max-w-3xl ${
+          position === 'center' ? 'flex flex-col items-center' :
+          position === 'right' ? 'flex flex-col items-end' :
+          'flex flex-col items-start'
+        }`}>
           <h1 className="text-5xl md:text-7xl font-black text-white mb-8 leading-tight animate-fade-in uppercase tracking-tight">
             {title}
           </h1>
-          <p className="text-xl md:text-2xl text-zinc-100/90 mb-12 font-medium max-w-2xl border-l-4 border-blue-500 pl-6">
+          <p className={`text-xl md:text-2xl text-zinc-100/90 mb-12 font-medium max-w-2xl ${
+            position === 'center' ? '' :
+            position === 'right' ? 'border-r-4 border-blue-500 pr-6' :
+            'border-l-4 border-blue-500 pl-6'
+          }`}>
             {subtitle}
           </p>
           <button 

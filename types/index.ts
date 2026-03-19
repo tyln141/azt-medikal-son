@@ -56,6 +56,7 @@ export type SiteContent = {
     subtitle: MultiLang;
     buttonText: MultiLang;
     image?: string | ImageConfig;
+    position?: "left" | "center" | "right";
   };
   about: {
     title: MultiLang;
