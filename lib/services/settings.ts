@@ -1,7 +1,7 @@
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../firebase/config";
 import { Settings } from "@/types";
-import { getBaseUrl } from "../utils";
+import { getBaseUrl } from "@/lib/utils/base-url";
 
 const SETTINGS_DOC_ID = "main";
 

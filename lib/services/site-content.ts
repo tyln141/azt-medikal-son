@@ -1,7 +1,7 @@
 import { db } from "../firebase/config";
 import { doc, getDoc } from "firebase/firestore";
 import { SiteContent } from "@/types";
-import { getBaseUrl } from "../utils";
+import { getBaseUrl } from "@/lib/utils/base-url";
 
 const COLLECTION_NAME = "site-content";
 const DOCUMENT_ID = "main";

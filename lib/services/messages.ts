@@ -8,7 +8,7 @@ import {
   orderBy 
 } from "firebase/firestore";
 import { Message } from "@/types";
-import { getBaseUrl } from "../utils";
+import { getBaseUrl } from "@/lib/utils/base-url";
 
 const COLLECTION_NAME = "messages";
 
