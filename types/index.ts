@@ -60,9 +60,9 @@ export type SiteContent = {
   about: {
     title: MultiLang;
     description: MultiLang;
-    stats: { label: MultiLang; value: string }[];
     image?: string | ImageConfig;
   };
+  stats: { label: MultiLang; value: string }[];
   whyUs: {
     title: MultiLang;
     description: MultiLang;
@@ -70,7 +70,7 @@ export type SiteContent = {
   }[];
   logo: ImageConfig;
   footer: {
-    address: string;
+    address: MultiLang;
     phone: string;
     email: string;
     workingHours: MultiLang;

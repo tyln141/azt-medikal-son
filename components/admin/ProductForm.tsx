@@ -35,20 +35,25 @@ export default function ProductForm({ initialData, onSubmit, onCancel }: Product
   const handleTextChange = (field: "name" | "description", value: string) => {
     setFormData((prev) => ({
       ...prev,
-      [field]: { ...(prev[field] as MultiLang), [activeLang]: value },
+      [field]: {
+        ...(typeof prev[field] === "object" ? prev[field] : {}),
+        [activeLang]: value,
+      },
     }));
   };
 
   const addFeature = () => {
     if (!newFeature.trim()) return;
     setFormData((prev) => {
-      const current = prev.features?.[activeLang] || [];
+      const current = (typeof prev.features === "object" ? prev.features?.[activeLang] : []) || [];
+      const newFeatures = {
+        tr: [], en: [], de: [], fr: [],
+        ...(typeof prev.features === "object" ? prev.features : {}),
+        [activeLang]: [...current, newFeature.trim()],
+      };
       return {
         ...prev,
-        features: {
-          ...(prev.features as MultiLangArray),
-          [activeLang]: [...current, newFeature.trim()],
-        },
+        features: newFeatures as MultiLangArray,
       };
     });
     setNewFeature("");
@@ -56,13 +61,15 @@ export default function ProductForm({ initialData, onSubmit, onCancel }: Product
 
   const removeFeature = (index: number) => {
     setFormData((prev) => {
-      const current = prev.features?.[activeLang] || [];
+      const current = (typeof prev.features === "object" ? prev.features?.[activeLang] : []) || [];
+      const newFeatures = {
+        tr: [], en: [], de: [], fr: [],
+        ...(typeof prev.features === "object" ? prev.features : {}),
+        [activeLang]: current.filter((_, i) => i !== index),
+      };
       return {
         ...prev,
-        features: {
-          ...(prev.features as MultiLangArray),
-          [activeLang]: current.filter((_, i) => i !== index),
-        },
+        features: newFeatures as MultiLangArray,
       };
     });
   };
@@ -73,35 +80,15 @@ export default function ProductForm({ initialData, onSubmit, onCancel }: Product
 
     const reader = new FileReader();
     reader.onloadend = () => {
-      const img = new Image();
-      img.src = reader.result as string;
-      img.onload = () => {
-        const canvas = document.createElement("canvas");
-        const MAX_WIDTH = 800;
-        let width = img.width;
-        let height = img.height;
-
-        if (width > MAX_WIDTH) {
-          height *= MAX_WIDTH / width;
-          width = MAX_WIDTH;
-        }
-
-        canvas.width = width;
-        canvas.height = height;
-
-        const ctx = canvas.getContext("2d");
-        if (ctx) {
-          ctx.drawImage(img, 0, 0, width, height);
-          const base64 = canvas.toDataURL("image/jpeg", 0.8);
-          
-          const newImg = { url: base64, objectFit: "cover" as const };
-          setFormData(prev => ({
-            ...prev,
-            images: [...(prev.images || []), newImg]
-          }));
-        }
-        if (fileInputRef.current) fileInputRef.current.value = "";
-      };
+      const base64 = reader.result as string;
+      const newImg = { url: base64, objectFit: "cover" as const };
+      
+      setFormData(prev => ({
+        ...prev,
+        images: [...(prev.images || []), newImg]
+      }));
+      
+      if (fileInputRef.current) fileInputRef.current.value = "";
     };
     reader.readAsDataURL(file);
   };

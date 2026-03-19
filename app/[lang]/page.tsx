@@ -29,7 +29,7 @@ export default async function Home({
       <Header />
       <main>
         <Hero lang={lang} content={siteContent?.hero} />
-        <About lang={lang} content={siteContent?.about} />
+        <About lang={lang} content={siteContent?.about} stats={siteContent?.stats} />
         <CategoriesGrid lang={lang} categories={categories} />
         <WhyUs lang={lang} content={siteContent?.whyUs} />
       </main>

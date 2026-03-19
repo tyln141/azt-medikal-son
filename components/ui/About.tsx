@@ -7,9 +7,10 @@ import { SiteContent } from "@/types";
 interface AboutProps {
   lang: string;
   content?: SiteContent["about"];
+  stats?: SiteContent["stats"];
 }
 
-export default function About({ lang, content }: AboutProps) {
+export default function About({ lang, content, stats }: AboutProps) {
   const tLocal = (v: any, lang: string) => v?.[lang] || v?.tr || "";
   const titleText = content?.title ? tLocal(content.title, lang) : "Geleceğin Sağlık Teknolojilerini Bugün Sunuyoruz";
   const descText = content?.description ? tLocal(content.description, lang) : "10 yılı aşkın tecrübemizle...";
@@ -65,9 +66,9 @@ export default function About({ lang, content }: AboutProps) {
               {descText}
             </p>
             
-            {(content?.stats && content.stats.length > 0) && (
+            {(stats && stats.length > 0) && (
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 pt-6 border-t border-gray-200">
-                {content.stats.map((stat: any, idx: number) => (
+                {stats.map((stat: any, idx: number) => (
                    <div key={idx} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
                      <span className="block text-4xl font-black text-blue-600 mb-2">{stat.value}</span>
                      <p className="text-gray-800 font-bold text-sm uppercase tracking-wide opacity-80">{tLocal(stat.label, lang)}</p>

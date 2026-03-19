@@ -12,16 +12,28 @@ import { getBaseUrl } from "@/lib/utils/base-url";
 
 const COLLECTION_NAME = "categories";
 
+const normalizeCategory = (data: any): Category => {
+  const n = (val: any) => (typeof val === "object" && val !== null && !Array.isArray(val)) 
+    ? { tr: "", en: "", de: "", fr: "", ...val } 
+    : { tr: (typeof val === 'string' ? val : ""), en: "", de: "", fr: "" };
+
+  return {
+    ...data,
+    name: n(data.name),
+    description: n(data.description),
+  };
+};
+
 export const categoriesService = {
   // Read operations (Client-side safe)
   async getAll(): Promise<Category[]> {
     try {
       const q = query(collection(db, COLLECTION_NAME), orderBy("createdAt", "desc"));
       const querySnapshot = await getDocs(q);
-      return querySnapshot.docs.map(doc => ({
+      return querySnapshot.docs.map(doc => normalizeCategory({
         id: doc.id,
         ...doc.data()
-      } as Category));
+      }));
     } catch (error: any) {
       console.error("Firestore Error (categories.getAll):", error?.message || error);
       return [];
@@ -32,7 +44,7 @@ export const categoriesService = {
     const docRef = doc(db, COLLECTION_NAME, id);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-      return { id: docSnap.id, ...docSnap.data() } as Category;
+      return normalizeCategory({ id: docSnap.id, ...docSnap.data() });
     }
     return null;
   },

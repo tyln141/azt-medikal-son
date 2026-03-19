@@ -13,15 +13,31 @@ import { getBaseUrl } from "@/lib/utils/base-url";
 
 const COLLECTION_NAME = "products";
 
+const normalizeProduct = (data: any): Product => {
+  const n = (val: any) => (typeof val === "object" && val !== null && !Array.isArray(val)) 
+    ? { tr: "", en: "", de: "", fr: "", ...val } 
+    : { tr: (typeof val === 'string' ? val : ""), en: "", de: "", fr: "" };
+
+  return {
+    ...data,
+    name: n(data.name),
+    description: n(data.description),
+    features: (typeof data.features === "object" && data.features !== null && !Array.isArray(data.features)) ? {
+      tr: [], en: [], de: [], fr: [],
+      ...data.features
+    } : { tr: [], en: [], de: [], fr: [] },
+  };
+};
+
 export const productsService = {
   async getAll(): Promise<Product[]> {
     try {
       const q = query(collection(db, COLLECTION_NAME), orderBy("createdAt", "desc"));
       const querySnapshot = await getDocs(q);
-      return querySnapshot.docs.map(doc => ({
+      return querySnapshot.docs.map(doc => normalizeProduct({
         id: doc.id,
         ...doc.data()
-      } as Product));
+      }));
     } catch (error: any) {
       console.error("Firestore Error (products.getAll):", error?.message || error);
       return [];
@@ -36,10 +52,10 @@ export const productsService = {
         orderBy("createdAt", "desc")
       );
       const querySnapshot = await getDocs(q);
-      return querySnapshot.docs.map(doc => ({
+      return querySnapshot.docs.map(doc => normalizeProduct({
         id: doc.id,
         ...doc.data()
-      } as Product));
+      }));
     } catch (error: any) {
       console.error("Firestore Error (products.getByCategoryId):", error?.message || error);
       return [];
@@ -50,7 +66,7 @@ export const productsService = {
     const docRef = doc(db, COLLECTION_NAME, id);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-      return { id: docSnap.id, ...docSnap.data() } as Product;
+      return normalizeProduct({ id: docSnap.id, ...docSnap.data() });
     }
     return null;
   },

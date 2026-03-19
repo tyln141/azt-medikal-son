@@ -27,7 +27,10 @@ export default function CategoryForm({ initialData, onSubmit, onCancel }: Catego
   const handleTextChange = (field: "name" | "description", value: string) => {
     setFormData((prev) => ({
       ...prev,
-      [field]: { ...(prev[field] as MultiLang), [activeLang]: value },
+      [field]: {
+        ...(typeof prev[field] === "object" ? prev[field] : {}),
+        [activeLang]: value,
+      },
     }));
   };
 
@@ -38,12 +41,17 @@ export default function CategoryForm({ initialData, onSubmit, onCancel }: Catego
     const reader = new FileReader();
     reader.onloadend = () => {
       const base64 = reader.result as string;
+
       setFormData(prev => ({
         ...prev,
-        image: { ...((prev.image as any) || {}), url: base64, objectFit: "cover" as const }
+        image: {
+          url: base64,
+          objectFit: "cover"
+        }
       }));
       if (fileInputRef.current) fileInputRef.current.value = "";
     };
+
     reader.readAsDataURL(file);
   };
 
