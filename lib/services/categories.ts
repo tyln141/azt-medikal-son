@@ -24,29 +24,46 @@ const normalizeCategory = (data: any): Category => {
   };
 };
 
+const seedCategories: Category[] = [
+  { id: "hemodiyaliz-kateterleri", name: { tr: "Hemodiyaliz Kateterleri", en: "Hemodialysis Catheters", de: "", fr: "" }, description: { tr: "Yüksek kaliteli kateter çözümleri", en: "High quality catheter solutions", de: "", fr: "" }, createdAt: Date.now() },
+  { id: "infuzyon-pompaları", name: { tr: "İnfüzyon Pompaları", en: "Infusion Pumps", de: "", fr: "" }, description: { tr: "Modern infüzyon çözümleri", en: "Modern infusion solutions", de: "", fr: "" }, createdAt: Date.now() - 1000 },
+  { id: "diyaliz-sarf-malzemeleri", name: { tr: "Diyaliz Sarf Malzemeleri", en: "Dialysis Consumables", de: "", fr: "" }, description: { tr: "Diyaliz için tüm ihtiyaçlar", en: "All dialysis needs", de: "", fr: "" }, createdAt: Date.now() - 2000 },
+  { id: "port-igneleri", name: { tr: "Port İğneleri", en: "Port Needles", de: "", fr: "" }, description: { tr: "Güvenilir port iğneleri", en: "Reliable port needles", de: "", fr: "" }, createdAt: Date.now() - 3000 }
+];
+
 export const categoriesService = {
   // Read operations (Client-side safe)
   async getAll(): Promise<Category[]> {
     try {
       const q = query(collection(db, COLLECTION_NAME), orderBy("createdAt", "desc"));
       const querySnapshot = await getDocs(q);
-      return querySnapshot.docs.map(doc => normalizeCategory({
+      const docs = querySnapshot.docs.map(doc => normalizeCategory({
         id: doc.id,
         ...doc.data()
       }));
+
+      if (docs.length === 0) {
+        return seedCategories;
+      }
+      return docs;
     } catch (error: any) {
       console.error("Firestore Error (categories.getAll):", error?.message || error);
-      return [];
+      return seedCategories; // Return seed if error (e.g. no collection)
     }
   },
 
   async getById(id: string): Promise<Category | null> {
-    const docRef = doc(db, COLLECTION_NAME, id);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      return normalizeCategory({ id: docSnap.id, ...docSnap.data() });
+    try {
+      const docRef = doc(db, COLLECTION_NAME, id);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        return normalizeCategory({ id: docSnap.id, ...docSnap.data() });
+      }
+      // Fallback to seed
+      return seedCategories.find(c => c.id === id) || null;
+    } catch (error) {
+      return seedCategories.find(c => c.id === id) || null;
     }
-    return null;
   },
 
   // Write operations (Must go through API)

@@ -29,18 +29,63 @@ const normalizeProduct = (data: any): Product => {
   };
 };
 
+const seedProducts: Product[] = [
+  {
+    id: "infuzyon-pompasi-pro-3000",
+    name: { tr: "Akıllı İnfüzyon Pompası - Pro 3000", en: "Smart Infusion Pump - Pro 3000", de: "", fr: "" },
+    description: { tr: "Hassas dozaj kontrolü ve güvenli sıvı iletimi sağlar. Modern sağlık kuruluşları için tasarlanmıştır.", en: "Provides precise dosage control and safe fluid delivery. Designed for modern healthcare facilities.", de: "", fr: "" },
+    features: {
+      tr: ["Dokunmatik ekran", "Kablosuz bağlantı", "Hata önleme sistemi", "Geniş ilaç kütüphanesi"],
+      en: ["Touch screen", "Wireless connection", "Error prevention system", "Extensive drug library"],
+      de: [], fr: []
+    },
+    categoryId: "infuzyon-pompaları",
+    images: [],
+    createdAt: Date.now()
+  },
+  {
+    id: "diyaliz-sarf-seti-v1",
+    name: { tr: "Diyaliz Sarf Seti - Model V1", en: "Dialysis Consumable Set - Model V1", de: "", fr: "" },
+    description: { tr: "Steril ve yüksek kaliteli diyaliz sarf malzemeleri seti.", en: "Sterile and high quality dialysis consumable set.", de: "", fr: "" },
+    features: {
+      tr: ["Steril paketleme", "Biyouyumlu malzeme", "Hızlı kurulum"],
+      en: ["Sterile packaging", "Biocompatible material", "Fast setup"],
+      de: [], fr: []
+    },
+    categoryId: "diyaliz-sarf-malzemeleri",
+    images: [],
+    createdAt: Date.now() - 5000
+  },
+  {
+    id: "guvenli-port-ignesi-20g",
+    name: { tr: "Güvenli Port İğnesi - 20G", en: "Safety Port Needle - 20G", de: "", fr: "" },
+    description: { tr: "İğne batma yaralanmalarını önleyen güvenlik mekanizmalı port iğnesi.", en: "Port needle with safety mechanism preventing needle stick injuries.", de: "", fr: "" },
+    features: {
+      tr: ["Güvenlik kilidi", "Yumuşak kanatçıklar", "Yüksek akış hızı"],
+      en: ["Safety lock", "Soft wings", "High flow rate"],
+      de: [], fr: []
+    },
+    categoryId: "port-igneleri",
+    images: [],
+    createdAt: Date.now() - 10000
+  }
+];
+
 export const productsService = {
   async getAll(): Promise<Product[]> {
     try {
       const q = query(collection(db, COLLECTION_NAME), orderBy("createdAt", "desc"));
       const querySnapshot = await getDocs(q);
-      return querySnapshot.docs.map(doc => normalizeProduct({
+      const docs = querySnapshot.docs.map(doc => normalizeProduct({
         id: doc.id,
         ...doc.data()
       }));
+      
+      if (docs.length === 0) return seedProducts;
+      return docs;
     } catch (error: any) {
       console.error("Firestore Error (products.getAll):", error?.message || error);
-      return [];
+      return seedProducts;
     }
   },
 
@@ -52,23 +97,33 @@ export const productsService = {
         orderBy("createdAt", "desc")
       );
       const querySnapshot = await getDocs(q);
-      return querySnapshot.docs.map(doc => normalizeProduct({
+      const docs = querySnapshot.docs.map(doc => normalizeProduct({
         id: doc.id,
         ...doc.data()
       }));
+
+      if (docs.length === 0) {
+        return seedProducts.filter(p => p.categoryId === categoryId);
+      }
+      return docs;
     } catch (error: any) {
       console.error("Firestore Error (products.getByCategoryId):", error?.message || error);
-      return [];
+      return seedProducts.filter(p => p.categoryId === categoryId);
     }
   },
 
   async getById(id: string): Promise<Product | null> {
-    const docRef = doc(db, COLLECTION_NAME, id);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      return normalizeProduct({ id: docSnap.id, ...docSnap.data() });
+    try {
+      const docRef = doc(db, COLLECTION_NAME, id);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        return normalizeProduct({ id: docSnap.id, ...docSnap.data() });
+      }
+      // Fallback to seed
+      return seedProducts.find(p => p.id === id) || null;
+    } catch (error) {
+      return seedProducts.find(p => p.id === id) || null;
     }
-    return null;
   },
 
   async create(data: Omit<Product, "id" | "createdAt">): Promise<Product> {

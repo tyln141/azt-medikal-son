@@ -15,13 +15,30 @@ const defaultData: SiteContent = {
   },
   about: {
     title: { tr: "Hakkımızda", en: "About Us", de: "Über uns", fr: "À propos" },
-    description: { tr: "AZT Medikal olarak sağlık sektörüne yenilikçi ve güvenilir çözümler sunuyoruz.", en: "As AZT Medical, we provide innovative and reliable solutions to the healthcare sector.", de: "Als AZT Medikal bieten wir innovative und zuverlässige Lösungen im Gesundheitswesen.", fr: "En tant qu'AZT Medikal, we propose des solutions innovantes et fiables." },
+    description: { tr: "AZT Medikal olarak sağlık sektörüne yenilikçi ve güvenilir çözümler sunuyoruz.", en: "As AZT Medical, we provide innovative and reliable solutions to the healthcare sector.", de: "Als AZT Medikal bieten wir innovative und zuverlässige Lösungen im Gesundheitswesen.", fr: "En tant qu'AZT Medikal, nous proposons des solutions innovantes et fiables." },
     image: undefined
   },
   whyUs: [
-    { title: { tr: "Yüksek Kalite", en: "High Quality", de: "Hohe Qualität", fr: "Haute qualité" }, description: { tr: "Tüm ürünlerimiz uluslararası standartlara uygundur.", en: "All our products meet international standards.", de: "Alle unsere Produkte entsprechen internationalen Standards.", fr: "Tous nos produits respectent les normes internationales." }, icon: "🛡️" },
-    { title: { tr: "Hızlı Teslimat", en: "Fast Delivery", de: "Schnelle Lieferung", fr: "Livraison rapide" }, description: { tr: "Siparişleriniz en hızlı şekilde ulaştırılır.", en: "Your orders are delivered as quickly as possible.", de: "Ihre Bestellungen werden schnell geliefert.", fr: "Vos commandes sont livrées rapidement." }, icon: "🚚" },
-    { title: { tr: "Teknik Destek", en: "Technical Support", de: "Technischer Support", fr: "Support technique" }, description: { tr: "Uzman ekibimiz her zaman yanınızda.", en: "Our expert team is always with you.", de: "Unser Team ist immer für Sie da.", fr: "Notre équipe est toujours là pour vous." }, icon: "📞" }
+    { 
+      title: { tr: "Teknoloji", en: "Technology", de: "Technologie", fr: "Technologie" }, 
+      description: { tr: "Modern cihazlar ve çözümler", en: "Modern devices and solutions", de: "Moderne Geräte und Lösungen", fr: "Appareils et solutions modernes" }, 
+      icon: "⚙️" 
+    },
+    { 
+      title: { tr: "Uzman Kadro", en: "Expert Team", de: "Expertenteam", fr: "Équipe d'experts" }, 
+      description: { tr: "Deneyimli ekip", en: "Experienced team", de: "Erfahrenes Team", fr: "Équipe expérimentée" }, 
+      icon: "👥" 
+    },
+    { 
+      title: { tr: "Çözüm Ortaklığı", en: "Partnership", de: "Partnerschaft", fr: "Partenariat" }, 
+      description: { tr: "Uzun vadeli destek", en: "Long-term support", de: "Langfristige Unterstützung", fr: "Soutien à long terme" }, 
+      icon: "🤝" 
+    },
+    { 
+      title: { tr: "Geniş Tedarik Ağı", en: "Supply Network", de: "Liefernetzwerk", fr: "Réseau d'approvisionnement" }, 
+      description: { tr: "Global tedarik ağı", en: "Global supply network", de: "Globales Liefernetzwerk", fr: "Réseau d'approvisionnement mondial" }, 
+      icon: "🌐" 
+    }
   ],
   stats: [
     { label: { tr: "Mutlu Müşteri", en: "Happy Clients", de: "Zufriedene Kunden", fr: "Clients satisfaits" }, value: "500+" },
