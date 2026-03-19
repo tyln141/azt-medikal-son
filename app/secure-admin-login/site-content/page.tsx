@@ -118,6 +118,51 @@ export default function SiteContentPage() {
     }
   };
 
+  const renderImageControls = (section: "logo" | "hero" | "about") => {
+    const img = section === "logo" ? formData.logo : (section === "hero" ? formData.hero?.image : formData.about?.image) as any;
+    if (!img?.url) return null;
+
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6 bg-white p-6 rounded-2xl border border-zinc-200">
+        <div>
+          <label className={labelClass}>Genişlik (px)</label>
+          <input type="number" placeholder="Oto" className={inputClass} value={img.width || ""} onChange={(e) => {
+            const val = parseInt(e.target.value) || undefined;
+            if (section === "logo") setFormData(prev => ({ ...prev, logo: { ...prev.logo, width: val } as any }));
+            else if (section === "hero") setFormData(prev => ({ ...prev, hero: { ...prev.hero, image: { ...img, width: val } } } as any));
+            else if (section === "about") setFormData(prev => ({ ...prev, about: { ...prev.about, image: { ...img, width: val } } } as any));
+          }} />
+        </div>
+        <div>
+          <label className={labelClass}>Yükseklik (px)</label>
+          <input type="number" placeholder="Oto" className={inputClass} value={img.height || ""} onChange={(e) => {
+            const val = parseInt(e.target.value) || undefined;
+            if (section === "logo") setFormData(prev => ({ ...prev, logo: { ...prev.logo, height: val } as any }));
+            else if (section === "hero") setFormData(prev => ({ ...prev, hero: { ...prev.hero, image: { ...img, height: val } } } as any));
+            else if (section === "about") setFormData(prev => ({ ...prev, about: { ...prev.about, image: { ...img, height: val } } } as any));
+          }} />
+        </div>
+        <div>
+          <label className={labelClass}>Görünüm</label>
+          <select className={inputClass} value={img.objectFit || "cover"} onChange={(e) => {
+            const val = e.target.value;
+            if (section === "logo") setFormData(prev => ({ ...prev, logo: { ...prev.logo, objectFit: val } as any }));
+            else if (section === "hero") setFormData(prev => ({ ...prev, hero: { ...prev.hero, image: { ...img, objectFit: val } } } as any));
+            else if (section === "about") setFormData(prev => ({ ...prev, about: { ...prev.about, image: { ...img, objectFit: val } } } as any));
+          }}>
+            <option value="cover">Cover (Doldur)</option>
+            <option value="contain">Contain (Sığdır)</option>
+          </select>
+        </div>
+        <div className="flex items-end">
+           <button onClick={() => handleRemoveImage(section)} className="w-full py-4 text-[10px] font-black bg-red-50 text-red-600 rounded-xl hover:bg-red-600 hover:text-white transition-all uppercase tracking-widest border border-red-100">
+             Görseli Kaldır
+           </button>
+        </div>
+      </div>
+    );
+  };
+
   if (isLoading && !content) return <div className="p-12 text-gray-900 font-bold">Yükleniyor...</div>;
 
   const inputClass = "w-full px-5 py-4 rounded-2xl border border-gray-300 bg-white text-gray-900 font-bold placeholder-gray-500 focus:ring-2 focus:ring-blue-500 outline-none transition-all";
@@ -190,25 +235,7 @@ export default function SiteContentPage() {
                     </div>
                   )}
                 </div>
-                {formData.logo?.url && (
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-zinc-50 p-8 rounded-3xl border border-zinc-100">
-                    <div>
-                      <label className={labelClass}>Genişlik (px)</label>
-                      <input type="number" className={inputClass} value={formData.logo?.width || ""} onChange={(e) => setFormData(prev => ({ ...prev, logo: { ...prev.logo, width: parseInt(e.target.value) || undefined } as any }))} />
-                    </div>
-                    <div>
-                      <label className={labelClass}>Yükseklik (px)</label>
-                      <input type="number" className={inputClass} value={formData.logo?.height || ""} onChange={(e) => setFormData(prev => ({ ...prev, logo: { ...prev.logo, height: parseInt(e.target.value) || undefined } as any }))} />
-                    </div>
-                    <div>
-                      <label className={labelClass}>Görünüm</label>
-                      <select className={inputClass} value={formData.logo?.objectFit || "contain"} onChange={(e) => setFormData(prev => ({ ...prev, logo: { ...prev.logo, objectFit: e.target.value } as any }))}>
-                        <option value="contain">Contain (Sığdır)</option>
-                        <option value="cover">Cover (Doldur)</option>
-                      </select>
-                    </div>
-                  </div>
-                )}
+                {renderImageControls("logo")}
               </div>
             )}
 
@@ -251,13 +278,15 @@ export default function SiteContentPage() {
                    <label className={labelClass}>Arka Plan / Hero Görseli</label>
                    <div className="p-10 bg-zinc-50 rounded-[32px] flex flex-col items-center border-2 border-dashed border-zinc-200">
                       {(formData.hero?.image as any)?.url ? (
-                        <div className="flex flex-col items-center gap-8 w-full">
-                           <img src={(formData.hero?.image as any).url} className="max-h-64 rounded-2xl shadow-xl shadow-black/10" style={{
-                              width: (formData.hero?.image as any).width ? (formData.hero?.image as any).width + "px" : "100%",
-                              height: (formData.hero?.image as any).height ? (formData.hero?.image as any).height + "px" : "auto",
-                              objectFit: (formData.hero?.image as any).objectFit || "cover"
-                           }} />
-                           <button onClick={() => handleRemoveImage("hero")} className="bg-red-600 text-white px-10 py-4 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-black transition-all">Görseli Kaldır</button>
+                        <div className="flex flex-col items-center w-full">
+                           <div className="p-6 bg-white rounded-3xl shadow-xl border border-zinc-100">
+                             <img src={(formData.hero?.image as any).url} className="max-h-64 rounded-2xl" style={{
+                                width: (formData.hero?.image as any).width ? (formData.hero?.image as any).width + "px" : "auto",
+                                height: (formData.hero?.image as any).height ? (formData.hero?.image as any).height + "px" : "auto",
+                                objectFit: (formData.hero?.image as any).objectFit || "cover"
+                             }} />
+                           </div>
+                           {renderImageControls("hero")}
                         </div>
                       ) : (
                         <div className="text-center">
@@ -292,9 +321,15 @@ export default function SiteContentPage() {
                     <label className={labelClass}>Hakkımızda Görseli</label>
                     <div className="p-10 bg-zinc-50 rounded-[32px] flex flex-col items-center border-2 border-dashed border-zinc-200">
                       {(formData.about?.image as any)?.url ? (
-                        <div className="flex flex-col items-center gap-8 w-full">
-                           <img src={(formData.about?.image as any).url} className="max-h-64 rounded-2xl shadow-xl" />
-                           <button onClick={() => handleRemoveImage("about")} className="bg-red-600 text-white px-10 py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-black transition-all">Görseli Kaldır</button>
+                        <div className="flex flex-col items-center w-full">
+                           <div className="p-6 bg-white rounded-3xl shadow-xl border border-zinc-100">
+                             <img src={(formData.about?.image as any).url} className="max-h-64 rounded-2xl" style={{
+                                width: (formData.about?.image as any).width ? (formData.about?.image as any).width + "px" : "auto",
+                                height: (formData.about?.image as any).height ? (formData.about?.image as any).height + "px" : "auto",
+                                objectFit: (formData.about?.image as any).objectFit || "cover"
+                             }} />
+                           </div>
+                           {renderImageControls("about")}
                         </div>
                       ) : (
                         <div className="text-center">

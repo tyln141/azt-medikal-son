@@ -25,10 +25,50 @@ const normalizeCategory = (data: any): Category => {
 };
 
 const seedCategories: Category[] = [
-  { id: "hemodiyaliz-kateterleri", name: { tr: "Hemodiyaliz Kateterleri", en: "Hemodialysis Catheters", de: "", fr: "" }, description: { tr: "Yüksek kaliteli kateter çözümleri", en: "High quality catheter solutions", de: "", fr: "" }, createdAt: Date.now() },
-  { id: "infuzyon-pompaları", name: { tr: "İnfüzyon Pompaları", en: "Infusion Pumps", de: "", fr: "" }, description: { tr: "Modern infüzyon çözümleri", en: "Modern infusion solutions", de: "", fr: "" }, createdAt: Date.now() - 1000 },
-  { id: "diyaliz-sarf-malzemeleri", name: { tr: "Diyaliz Sarf Malzemeleri", en: "Dialysis Consumables", de: "", fr: "" }, description: { tr: "Diyaliz için tüm ihtiyaçlar", en: "All dialysis needs", de: "", fr: "" }, createdAt: Date.now() - 2000 },
-  { id: "port-igneleri", name: { tr: "Port İğneleri", en: "Port Needles", de: "", fr: "" }, description: { tr: "Güvenilir port iğneleri", en: "Reliable port needles", de: "", fr: "" }, createdAt: Date.now() - 3000 }
+  { 
+    id: "hemodiyaliz-kateterleri", 
+    name: { tr: "Hemodiyaliz Kateterleri", en: "Hemodialysis Catheters", de: "Hämodialysekatheter", fr: "Cathéters d'hémodialyse" }, 
+    description: { 
+      tr: "Yüksek kaliteli ve güvenilir hemodiyaliz çözümleri", 
+      en: "High-quality and reliable hemodialysis solutions", 
+      de: "Hochwertige und zuverlässige Hämodialyselösungen", 
+      fr: "Solutions d'hémodialyse fiables et de haute qualité" 
+    }, 
+    createdAt: Date.now() 
+  },
+  { 
+    id: "infuzyon-pompaları", 
+    name: { tr: "İnfüzyon Pompaları", en: "Infusion Pumps", de: "Infusionspumpen", fr: "Pompes à perfusion" }, 
+    description: { 
+      tr: "Modern ve hassas infüzyon teknolojileri", 
+      en: "Modern and precise infusion technologies", 
+      de: "Moderne und präzise Infusionstechnologien", 
+      fr: "Technologies d'infusion modernes et précises" 
+    }, 
+    createdAt: Date.now() - 1000 
+  },
+  { 
+    id: "diyaliz-sarf-malzemeleri", 
+    name: { tr: "Diyaliz Sarf Malzemeleri", en: "Dialysis Consumables", de: "Dialyse-Verbrauchsmaterialien", fr: "Consommables de dialyse" }, 
+    description: { 
+      tr: "Diyaliz süreçleri için tüm sarf malzemeleri", 
+      en: "All consumables for dialysis processes", 
+      de: "Alle Verbrauchsmaterialien für Dialyseprozesse", 
+      fr: "Tous les consommables pour la dialyse" 
+    }, 
+    createdAt: Date.now() - 2000 
+  },
+  { 
+    id: "port-igneleri", 
+    name: { tr: "Port İğneleri", en: "Port Needles", de: "Portnadeln", fr: "Aiguilles à port" }, 
+    description: { 
+      tr: "Güvenli ve konforlu port iğne çözümleri", 
+      en: "Safe and comfortable port needle solutions", 
+      de: "Sichere und komfortable Portnadeln", 
+      fr: "Solutions d'aiguilles de port sûres and confortables" 
+    }, 
+    createdAt: Date.now() - 3000 
+  }
 ];
 
 export const categoriesService = {

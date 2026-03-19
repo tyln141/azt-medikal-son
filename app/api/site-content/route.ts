@@ -10,18 +10,42 @@ export async function GET() {
     const snap = await getDoc(ref);
 
     const defaultContent = {
-      hero: { title: { tr: "", en: "", de: "", fr: "" }, subtitle: { tr: "", en: "", de: "", fr: "" }, buttonText: { tr: "", en: "", de: "", fr: "" } },
-      about: { title: { tr: "", en: "", de: "", fr: "" }, description: { tr: "", en: "", de: "", fr: "" }, stats: [] },
-      logo: { url: "" },
-      whyUs: [],
-      footer: { address: "", phone: "", email: "", workingHours: { tr: "", en: "", de: "", fr: "" }, copyright: { tr: "", en: "", de: "", fr: "" } }
+      hero: { 
+        title: { tr: "A'dan Z'ye Medikal Çözümler", en: "Medical Solutions from A to Z", de: "Medizinische Lösungen von A bis Z", fr: "Solutions médicales de A à Z" }, 
+        subtitle: { tr: "Sağlık sektöründe güvenilir çözüm ortağınız", en: "Your trusted partner in healthcare", de: "Ihr zuverlässiger Partner im Gesundheitswesen", fr: "Votre partenaire de confiance dans le secteur de la santé" }, 
+        buttonText: { tr: "Ürünlerimizi İnceleyin", en: "Explore Our Products", de: "Unsere Produkte entdecken", fr: "Découvrez nos produits" } 
+      },
+      about: { 
+        title: { tr: "Hakkımızda", en: "About Us", de: "Über uns", fr: "À propos" }, 
+        description: { 
+          tr: "2010 yılından bu yana sağlık sektöründe faaliyet gösteren firmamız...", 
+          en: "Since 2010, our company has been providing high-quality medical products...", 
+          de: "Seit 2010 bietet unser Unternehmen hochwertige medizinische Produkte...", 
+          fr: "Depuis 2010, notre entreprise fournit des produits médicaux de haute qualité..." 
+        } 
+      },
+      logo: { url: "", objectFit: "contain" },
+      whyUs: [
+        { title: { tr: "Teknoloji", en: "Technology" }, description: { tr: "En son teknoloji...", en: "Latest technology..." }, icon: "⚙️" },
+        { title: { tr: "Uzman Kadro", en: "Expert Team" }, description: { tr: "Alanında uzman...", en: "Expert team..." }, icon: "👥" }
+      ],
+      stats: [
+        { label: { tr: "Yıllık Tecrübe", en: "Experience" }, value: "15+" },
+        { label: { tr: "Mutlu Müşteri", en: "Clients" }, value: "500+" }
+      ],
+      footer: { 
+        address: { tr: "Ankara, Türkiye", en: "Ankara, Turkey" }, 
+        phone: "+90 555 555 55 55", 
+        email: "info@aztmedikal.com", 
+        workingHours: { tr: "09:00 - 18:00", en: "09:00 - 18:00" }, 
+        copyright: { tr: "© 2026 AZT Medikal.", en: "© 2026 AZT Medical." } 
+      }
     };
 
     if (!snap.exists()) {
       return NextResponse.json(defaultContent);
     }
 
-    // Merge snap.data() with defaultContent to ensure all fields exist
     const data = snap.data();
     return NextResponse.json({
       ...defaultContent,

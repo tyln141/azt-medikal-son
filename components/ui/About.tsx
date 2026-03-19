@@ -1,77 +1,75 @@
 "use client";
 
-import useSWR from "swr";
-import { siteContentService } from "@/lib/services/site-content";
-import { SiteContent } from "@/types";
-
 interface AboutProps {
   lang: string;
-  content?: SiteContent["about"];
-  stats?: SiteContent["stats"];
+  content?: any;
+  stats?: any[];
 }
 
 export default function About({ lang, content, stats }: AboutProps) {
-  const tLocal = (v: any, lang: string) => v?.[lang] || v?.tr || "";
-  const titleText = content?.title ? tLocal(content.title, lang) : "Geleceğin Sağlık Teknolojilerini Bugün Sunuyoruz";
-  const descText = content?.description ? tLocal(content.description, lang) : "10 yılı aşkın tecrübemizle...";
+  const title = content?.title?.[lang] || "";
+  const description = content?.description?.[lang] || "";
+  const image = content?.image as any;
 
   const T_ABOUT = { tr: "HAKKIMIZDA", en: "ABOUT US", de: "ÜBER UNS", fr: "À PROPOS" };
+  const labelAbout = T_ABOUT[lang as keyof typeof T_ABOUT] || T_ABOUT.tr;
 
   return (
-    <section id="about" className="py-24 bg-zinc-50 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 relative z-10">
-        <div className="grid md:grid-cols-2 gap-16 items-center">
+    <section id="about" className="py-32 bg-white relative overflow-hidden text-black uppercase">
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <div className="grid lg:grid-cols-2 gap-20 items-center">
           
-          <div className="relative w-full rounded-3xl overflow-hidden shadow-2xl bg-white border border-gray-100 flex items-center justify-center p-4 group">
-              {(() => {
-                const img = content?.image;
-                const isConfig = typeof img === 'object' && img !== null;
-                const url = isConfig ? (img as any).url : (typeof img === 'string' ? img : "");
-                
-                if (url) {
-                  return (
-                    <img 
-                      src={url} 
-                      className="max-h-[400px] w-full transition-transform duration-700 group-hover:scale-105" 
-                      style={{
-                        width: isConfig && (img as any).width ? (img as any).width + "px" : "100%",
-                        height: isConfig && (img as any).height ? (img as any).height + "px" : "auto",
-                        objectFit: (isConfig && (img as any).objectFit) || "contain"
-                      }}
-                      alt={titleText}
-                    />
-                  );
-                }
-                
-                return (
-                  <div className="flex items-center justify-center text-gray-800 font-black uppercase tracking-widest text-sm w-full h-80 bg-gray-50 rounded-xl border border-gray-200">
-                    <div className="text-center">
-                      <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm mb-4 mx-auto">📸</div>
-                      Görsel Bulunamadı
-                    </div>
-                  </div>
-                );
-              })()}
+          {/* Image Section */}
+          <div className="relative group">
+            <div className="relative z-10 rounded-[40px] overflow-hidden bg-zinc-50 border border-zinc-100 shadow-2xl transition-all duration-700 group-hover:shadow-blue-500/20">
+              {image?.url ? (
+                <img 
+                  src={image.url} 
+                  className="mx-auto" 
+                  style={{
+                    width: image.width ? image.width + "px" : "100%",
+                    height: image.height ? image.height + "px" : "auto",
+                    objectFit: image.objectFit || "cover"
+                  }}
+                  alt={title}
+                />
+              ) : (
+                <div className="aspect-square flex items-center justify-center bg-zinc-100 text-zinc-400">
+                  <span className="text-6xl">📸</span>
+                </div>
+              )}
+            </div>
+            {/* Decorative Elements */}
+            <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-blue-600 rounded-[32px] -z-10 animate-pulse opacity-20" />
+            <div className="absolute -top-6 -right-6 w-24 h-24 bg-zinc-900 rounded-[24px] -z-10 opacity-10" />
           </div>
 
-          <div className="space-y-8">
+          {/* Text Section */}
+          <div className="space-y-10">
             <div>
-              <h2 className="text-sm font-black tracking-widest text-blue-600 uppercase mb-4 opacity-80">{tLocal(T_ABOUT, lang)}</h2>
-              <h3 className="text-4xl md:text-5xl font-black text-gray-900 leading-tight">
-                {titleText}
-              </h3>
+              <span className="inline-block px-4 py-1.5 bg-blue-50 text-blue-600 text-xs font-black tracking-[0.2em] rounded-full mb-6">
+                {labelAbout}
+              </span>
+              <h2 className="text-5xl md:text-6xl font-black text-black leading-tight tracking-tighter">
+                {title}
+              </h2>
             </div>
             
-            <p className="text-xl text-gray-600 leading-relaxed font-medium">
-              {descText}
+            <p className="text-xl text-zinc-700 leading-relaxed font-medium lowercase first-letter:uppercase">
+              {description}
             </p>
             
-            {(stats && stats.length > 0) && (
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 pt-6 border-t border-gray-200">
+            {/* Stats Grid */}
+            {stats && stats.length > 0 && (
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 pt-10 border-t border-zinc-100">
                 {stats.map((stat: any, idx: number) => (
-                   <div key={idx} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                     <span className="block text-4xl font-black text-blue-600 mb-2">{stat.value}</span>
-                     <p className="text-gray-800 font-bold text-sm uppercase tracking-wide opacity-80">{tLocal(stat.label, lang)}</p>
+                   <div key={idx} className="group">
+                     <span className="block text-4xl font-black text-blue-600 mb-2 group-hover:scale-110 transition-transform origin-left">
+                       {stat.value}
+                     </span>
+                     <p className="text-zinc-500 font-bold text-xs tracking-widest leading-tight">
+                       {stat.label?.[lang] || stat.label?.tr || ""}
+                     </p>
                    </div>
                 ))}
               </div>

@@ -1,41 +1,53 @@
 "use client";
 
-import { SiteContent } from "@/types";
+import { useContact } from "@/context/ContactContext";
 
 interface HeroProps {
   lang: string;
-  content?: SiteContent["hero"];
+  content?: any;
 }
-
-import { useContact } from "@/context/ContactContext";
 
 export default function Hero({ lang, content }: HeroProps) {
   const { openModal } = useContact();
-  const tLocal = (v: any, lang: string) => {
-    if (typeof v === "string") return v;
-    return v?.[lang] || v?.tr || "";
-  };
 
-  const titleText = content?.title ? tLocal(content.title, lang) : "Sağlıkta Güven ve Yenilikçi Çözümler";
-  const subtitleText = content?.subtitle ? tLocal(content.subtitle, lang) : "AZT Medikal olarak en yüksek standartlarda hizmet sunuyoruz.";
-  
-  const T_OFFER = { tr: "Teklif Al", en: "Get a Quote", de: "Angebot einholen", fr: "Obtenir un devis" };
+  const title = content?.title?.[lang] || "";
+  const subtitle = content?.subtitle?.[lang] || "";
+  const buttonText = content?.buttonText?.[lang] || "";
+  const image = content?.image as any;
 
   return (
-    <section className="w-full bg-gradient-to-r from-sky-500 to-blue-600 text-white min-h-[500px] flex items-center py-20">
-      <div className="max-w-7xl mx-auto px-6 w-full text-center">
-        <div className="flex flex-col items-center max-w-4xl mx-auto">
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-black mb-8 leading-tight">
-            {titleText}
+    <section className="relative w-full overflow-hidden min-h-[600px] flex items-center py-24 bg-zinc-900 border-none">
+      {/* Background Image / Gradient */}
+      {image?.url ? (
+        <div className="absolute inset-0 z-0">
+          <img 
+            src={image.url} 
+            className="w-full h-full" 
+            style={{ 
+              objectFit: image.objectFit || "cover",
+              width: image.width ? image.width + "px" : "100%",
+              height: image.height ? image.height + "px" : "100%"
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
+        </div>
+      ) : (
+        <div className="absolute inset-0 z-0 bg-gradient-to-r from-sky-600 to-blue-800 opacity-90" />
+      )}
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6 w-full text-left">
+        <div className="max-w-3xl">
+          <h1 className="text-5xl md:text-7xl font-black text-white mb-8 leading-tight animate-fade-in uppercase tracking-tight">
+            {title}
           </h1>
-          <p className="text-xl md:text-2xl mb-12 font-medium text-sky-50 opacity-90 max-w-2xl">
-            {subtitleText}
+          <p className="text-xl md:text-2xl text-zinc-100/90 mb-12 font-medium max-w-2xl border-l-4 border-blue-500 pl-6">
+            {subtitle}
           </p>
           <button 
             onClick={openModal}
-            className="bg-white text-blue-600 px-12 py-5 rounded-2xl font-black hover:bg-zinc-900 hover:text-white transition-all duration-300 shadow-2xl scale-110 active:scale-100 uppercase tracking-widest text-sm"
+            className="group relative bg-blue-600 text-white px-12 py-5 rounded-2xl font-black hover:bg-white hover:text-blue-600 transition-all duration-500 shadow-2xl active:scale-95 uppercase tracking-widest text-sm overflow-hidden"
           >
-            {tLocal(T_OFFER, lang)}
+            <span className="relative z-10">{buttonText}</span>
           </button>
         </div>
       </div>
