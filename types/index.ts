@@ -76,6 +76,7 @@ export type SiteContent = {
     workingHours: MultiLang;
     copyright: MultiLang;
     description?: MultiLang;
+    poweredBy?: MultiLang;
   };
 };
 

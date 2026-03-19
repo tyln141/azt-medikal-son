@@ -116,6 +116,12 @@ const defaultData: SiteContent = {
       en: "Your global partner in health technologies. Shaping tomorrow's medicine today with 15 years of experience.",
       de: "Ihr globaler Partner für Gesundheitstechnologien. Wir gestalten die Medizin von morgen schon heute.",
       fr: "Votre partenaire mondial en technologies de santé. Façonner la médecine de demain dès aujourd'hui."
+    },
+    poweredBy: {
+      tr: "Antigravity tarafından güçlendirilmiştir",
+      en: "Powered by Antigravity",
+      de: "Präsentiert von Antigravity",
+      fr: "Propulsé par Antigravity"
     }
   },
   logo: { url: "", objectFit: "contain" }
@@ -156,6 +162,7 @@ const normalizeSiteContent = (data: any): SiteContent => {
       workingHours: n(data.footer?.workingHours),
       copyright: n(data.footer?.copyright),
       description: n(data.footer?.description),
+      poweredBy: n(data.footer?.poweredBy),
     }
   };
 };

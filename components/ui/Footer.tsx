@@ -100,8 +100,13 @@ export default function Footer() {
           </div>
         </div>
         
-        <div className="border-t border-white/10 pt-10 mt-10 text-center text-gray-500 text-sm font-medium">
-           {content?.footer?.copyright ? t(content.footer.copyright, lang) : "© 2026 AZT Medikal. Tüm Hakları Saklıdır."}
+        <div className="border-t border-white/10 pt-10 mt-10 text-center text-gray-500 text-sm font-medium flex flex-col gap-2">
+           <div>{content?.footer?.copyright ? t(content.footer.copyright, lang) : "© 2026 AZT Medikal. Tüm Hakları Saklıdır."}</div>
+           {content?.footer?.poweredBy && (
+             <div className="text-gray-600 text-xs">
+               {t(content.footer.poweredBy, lang)}
+             </div>
+           )}
         </div>
       </div>
     </footer>

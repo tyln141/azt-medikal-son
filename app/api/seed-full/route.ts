@@ -219,7 +219,12 @@ export async function GET() {
             de: "Indem wir die innovativsten Lösungen und Qualitätsstandards der Branche vereinen, bleiben wir die erste Wahl unserer Geschäftspartner.",
             fr: "En combinant les solutions les plus innovantes et les normes de qualité du secteur, nous restons le premier choix de nos partenaires."
          },
-         address: "Ankara Medikal İhtisas Bölgesi, 4. Kat No:123, Türkiye",
+         address: {
+           tr: "Ankara Medikal İhtisas Bölgesi, 4. Kat No:123, Türkiye",
+           en: "Ankara Medical Specialized Zone, 4th Floor No:123, Turkey",
+           de: "Ankara Medizinisches Fachgebiet, 4. Stock Nr. 123, Türkei",
+           fr: "Zone Spécialisée Médicale d'Ankara, 4ème étage n°123, Turquie"
+         },
          phone: "+90 532 123 45 67",
          email: "sales@aztmedikal.com.tr",
          workingHours: {
@@ -233,6 +238,12 @@ export async function GET() {
             en: "© 2026 AZT Medical Import Export Inc. All rights reserved.",
             de: "© 2026 AZT Medical Import Export GmbH. Alle Rechte vorbehalten.",
             fr: "© 2026 AZT Medical Import Export SA. Tous droits réservés."
+         },
+         poweredBy: {
+           tr: "Antigravity tarafından güçlendirilmiştir",
+           en: "Powered by Antigravity",
+           de: "Präsentiert von Antigravity",
+           fr: "Propulsé par Antigravity"
          }
       }
     });

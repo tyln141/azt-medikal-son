@@ -61,7 +61,8 @@ export async function GET() {
         phone: "+90 555 555 55 55", 
         email: "info@aztmedikal.com", 
         workingHours: { tr: "Pazartesi - Cuma: 09:00 - 17:00", en: "Mon - Fri: 09:00 - 17:00" }, 
-        copyright: { tr: "© 2026 AZT Medikal.", en: "© 2026 AZT Medical." } 
+        copyright: { tr: "© 2026 AZT Medikal.", en: "© 2026 AZT Medical." },
+        poweredBy: { tr: "Antigravity tarafından güçlendirilmiştir", en: "Powered by Antigravity" }
       }
     };
 

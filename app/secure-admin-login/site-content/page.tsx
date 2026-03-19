@@ -471,6 +471,17 @@ export default function SiteContentPage() {
                       }} />
                     </div>
                   </div>
+                  <div>
+                    <label className={labelClass}>Powered By ({activeLang})</label>
+                    <input type="text" className={inputClass} value={formData.footer?.poweredBy?.[activeLang] || ""} onChange={(e) => {
+                      const val = e.target.value;
+                      setFormData(prev => {
+                        const footer = prev.footer || {} as any;
+                        const pwr = typeof footer.poweredBy === 'object' ? footer.poweredBy : {};
+                        return { ...prev, footer: { ...footer, poweredBy: { ...pwr, [activeLang]: val } } };
+                      });
+                    }} />
+                  </div>
                  <div><label className={labelClass}>Kısa Açıklama ({activeLang})</label><textarea rows={3} className={inputClass} value={formData.footer?.description?.[activeLang] || ""} onChange={(e) => {
                    const val = e.target.value;
                    setFormData(prev => {
