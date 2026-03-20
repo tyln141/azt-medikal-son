@@ -28,7 +28,7 @@ export default function CategoryForm({ initialData, onSubmit, onCancel }: Catego
     setFormData((prev) => ({
       ...prev,
       [field]: {
-        ...(typeof prev[field] === "object" ? prev[field] : {}),
+        ...(typeof prev[field] === "object" ? prev[field] : { tr: "", en: "", de: "", fr: "" }),
         [activeLang]: value,
       },
     }));
@@ -56,15 +56,15 @@ export default function CategoryForm({ initialData, onSubmit, onCancel }: Catego
   };
 
   const handleRemoveImage = () => {
-    setFormData(prev => ({ ...prev, image: undefined }));
+    setFormData(prev => ({ ...prev, image: "" }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      const finalImage = (formData.image as any)?.url ? formData.image : null;
-      await onSubmit({ ...formData, image: finalImage as any });
+      const finalImage = typeof formData.image === 'object' ? (formData.image as any)?.url : formData.image;
+      await onSubmit({ ...formData, image: finalImage || "" });
     } catch (error) {
        console.error(error);
        alert("Bir hata oluştu.");

@@ -24,9 +24,11 @@ export default function ProductsPage() {
     try {
       await productsService.create(data as any);
       setIsFormOpen(false);
-      mutate();
-    } catch (error) {
+      await mutate();
+      alert("Ürün başarıyla eklendi.");
+    } catch (error: any) {
        console.error(error);
+       alert("Hata: " + (error.message || "Bir hata oluştu."));
     }
   };
 
@@ -35,9 +37,11 @@ export default function ProductsPage() {
     try {
       await productsService.update(editingProduct.id, data as any);
       setEditingProduct(undefined);
-      mutate();
-    } catch (error) {
+      await mutate();
+      alert("Ürün başarıyla güncellendi.");
+    } catch (error: any) {
        console.error(error);
+       alert("Hata: " + (error.message || "Bir hata oluştu."));
     }
   };
 
@@ -45,9 +49,11 @@ export default function ProductsPage() {
     if (!confirm("Bu ürünü silmek istediğinize emin misiniz?")) return;
     try {
       await productsService.delete(id);
-      mutate();
-    } catch (error) {
+      await mutate();
+      alert("Ürün silindi.");
+    } catch (error: any) {
        console.error(error);
+       alert("Hata: " + (error.message || "Bir hata oluştu."));
     }
   };
 

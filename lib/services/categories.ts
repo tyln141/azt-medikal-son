@@ -5,7 +5,8 @@ import {
   doc,
   getDoc,
   query,
-  orderBy
+  orderBy,
+  updateDoc
 } from "firebase/firestore";
 import { Category } from "@/types";
 import { getBaseUrl } from "@/lib/utils/base-url";
@@ -86,6 +87,59 @@ export const categoriesService = {
     } catch (error) {
        console.error(error);
        return seedCategories.find(c => c.id === id) || null;
+    }
+  },
+
+  async create(data: Omit<Category, "id" | "createdAt">): Promise<Category> {
+    const response = await fetch(`${getBaseUrl()}/api/categories`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+    if (!response.ok) {
+      const err = await response.json().catch(() => ({}));
+      throw new Error(err.error || "Failed to create category");
+    }
+    return response.json();
+  },
+
+  async update(id: string, data: Partial<Category>): Promise<void> {
+    if (!id) {
+       throw new Error("Missing document ID");
+    }
+
+    const payload = {
+      ...data,
+      id,
+      updatedAt: Date.now()
+    };
+
+    console.log("Updating Category ID:", id);
+
+    try {
+      const response = await fetch(`${getBaseUrl()}/api/categories`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      
+      if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        throw new Error(err.error || "Failed to update category");
+      }
+    } catch (error: any) {
+      console.error("UPDATE ERROR:", error);
+      throw error;
+    }
+  },
+
+  async delete(id: string): Promise<void> {
+    const response = await fetch(`${getBaseUrl()}/api/categories?id=${id}`, {
+      method: "DELETE"
+    });
+    if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        throw new Error(err.error || "Failed to delete category");
     }
   }
 };

@@ -36,7 +36,7 @@ export default function ProductForm({ initialData, onSubmit, onCancel }: Product
     setFormData((prev) => ({
       ...prev,
       [field]: {
-        ...(typeof prev[field] === "object" ? prev[field] : {}),
+        ...(typeof prev[field] === "object" ? prev[field] : { tr: "", en: "", de: "", fr: "" }),
         [activeLang]: value,
       },
     }));

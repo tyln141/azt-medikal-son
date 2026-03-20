@@ -21,9 +21,11 @@ export default function CategoriesPage() {
     try {
       await categoriesService.create(data as any);
       setIsFormOpen(false);
-      mutate();
-    } catch (error) {
+      await mutate();
+      alert("Kategori başarıyla eklendi.");
+    } catch (error: any) {
        console.error(error);
+       alert("Hata: " + (error.message || "Bir hata oluştu."));
     }
   };
 
@@ -32,9 +34,11 @@ export default function CategoriesPage() {
     try {
       await categoriesService.update(editingCategory.id, data as any);
       setEditingCategory(undefined);
-      mutate();
-    } catch (error) {
+      await mutate();
+      alert("Kategori başarıyla güncellendi.");
+    } catch (error: any) {
        console.error(error);
+       alert("Hata: " + (error.message || "Bir hata oluştu."));
     }
   };
 
@@ -42,9 +46,11 @@ export default function CategoriesPage() {
     if (!confirm("Bu kategoriyi silmek istediğinize emin misiniz? Bu işlem geri alınamaz.")) return;
     try {
       await categoriesService.delete(id);
-      mutate();
-    } catch (error) {
+      await mutate();
+      alert("Kategori silindi.");
+    } catch (error: any) {
        console.error(error);
+       alert("Hata: " + (error.message || "Bir hata oluştu."));
     }
   };
 

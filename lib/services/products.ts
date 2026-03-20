@@ -6,7 +6,8 @@ import {
   getDoc, 
   query, 
   where, 
-  orderBy 
+  orderBy,
+  updateDoc
 } from "firebase/firestore";
 import { Product } from "@/types";
 import { getBaseUrl } from "@/lib/utils/base-url";
@@ -130,25 +131,52 @@ export const productsService = {
     const response = await fetch(`${getBaseUrl()}/api/products`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+      body: JSON.stringify(data)
     });
-    if (!response.ok) throw new Error("Failed to create product");
+    if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        throw new Error(err.error || "Failed to create product");
+    }
     return response.json();
   },
 
   async update(id: string, data: Partial<Product>): Promise<void> {
-    const response = await fetch(`${getBaseUrl()}/api/products`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id, ...data }),
-    });
-    if (!response.ok) throw new Error("Failed to update product");
+    if (!id) {
+       throw new Error("Missing document ID");
+    }
+
+    const payload = {
+      ...data,
+      id,
+      updatedAt: Date.now()
+    };
+
+    console.log("Updating Product ID:", id);
+
+    try {
+      const response = await fetch(`${getBaseUrl()}/api/products`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        throw new Error(err.error || "Failed to update product");
+      }
+    } catch (error: any) {
+      console.error("UPDATE ERROR:", error);
+      throw error;
+    }
   },
 
   async delete(id: string): Promise<void> {
     const response = await fetch(`${getBaseUrl()}/api/products?id=${id}`, {
-      method: "DELETE",
+      method: "DELETE"
     });
-    if (!response.ok) throw new Error("Failed to delete product");
+    if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        throw new Error(err.error || "Failed to delete product");
+    }
   }
 };

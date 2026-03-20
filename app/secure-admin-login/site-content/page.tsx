@@ -76,6 +76,7 @@ export default function SiteContentPage() {
       await siteContentService.update(safeData);
       mutate();
       alert("Başarıyla kaydedildi.");
+      window.location.reload();
     } catch (error: any) {
       console.error(error);
       alert("Kaydetme hatası: " + (error.message || "Bilinmeyen hata"));
