@@ -16,7 +16,7 @@ const nextConfig = {
             value: 'admin.aztmedikal.com.tr',
           },
         ],
-        destination: '/tr/admin',
+        destination: '/secure-admin-login',
         permanent: false,
       },
     ];
